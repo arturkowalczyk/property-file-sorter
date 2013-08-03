@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.util.regex.Pattern;
 
 public class PropertyFileParser {
 
+  private final static Pattern COMMENT_PATTERN = Pattern.compile("^#+");
   private final InputStream input;
 
   public PropertyFileParser(InputStream input) {
@@ -28,7 +30,9 @@ public class PropertyFileParser {
         group = null;
       } else {
         if (line.startsWith("#")) {
-          file.getElements().add(new Comment(line.substring(1).trim()));
+          line = COMMENT_PATTERN.matcher(line).replaceFirst("");
+
+          file.getElements().add(new Comment(line.trim()));
           group = null;
         } else {
           if (group == null) {

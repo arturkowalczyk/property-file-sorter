@@ -50,6 +50,28 @@ public class PropertyFileParserTest {
   }
   
   @Test
+  public void shouldParseComment1() throws IOException {
+    prepareParser("## labels");
+
+    PropertyFile file = parser.parse();
+
+    assertEquals(1, file.getElements().size());
+    assertEquals(Comment.class, file.getElements().get(0).getClass());    
+    assertEquals("labels", comment(file, 0).getContent());
+  }
+  
+  @Test
+  public void shouldParseComment2() throws IOException {
+    prepareParser("## labels");
+
+    PropertyFile file = parser.parse();
+
+    assertEquals(1, file.getElements().size());
+    assertEquals(Comment.class, file.getElements().get(0).getClass());    
+    assertEquals("labels", comment(file, 0).getContent());
+  }
+  
+  @Test
   public void shouldParseTwoComment() throws IOException {
     prepareParser("# first ", "# second ");
 
