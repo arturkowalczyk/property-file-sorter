@@ -40,8 +40,21 @@ public class PropertyFileParser {
             file.getElements().add(group);
           }
 
-          String[] parts = line.split("=");
-          group.put(parts[0], parts[1]);
+          final String[] parts = line.split("=");
+          final String key = parts[0];
+          final StringBuilder value = new StringBuilder();
+
+          if (parts.length >= 2) {
+            for (int i = 1; i < parts.length; i++) {
+              value.append(parts[i]);
+
+              if (i != parts.length - 1) {
+                value.append("=");
+              }
+            }
+          }
+
+          group.put(key, value.toString());
         }
       }
     }

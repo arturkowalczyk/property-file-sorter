@@ -109,6 +109,39 @@ public class PropertyFileParserTest {
   }
   
   @Test
+  public void shouldParseHtml1() throws IOException {
+    prepareParser("key=<b>value</b>");
+
+    PropertyFile file = parser.parse();
+
+    assertEquals(1, file.getElements().size());
+    assertEquals(Group.class, file.getElements().get(0).getClass());    
+    assertEquals("<b>value</b>", group(file, 0).value("key"));
+  }
+  
+  @Test
+  public void shouldParseHtml2() throws IOException {
+    prepareParser("key=<b style='new'>value</b>");
+
+    PropertyFile file = parser.parse();
+
+    assertEquals(1, file.getElements().size());
+    assertEquals(Group.class, file.getElements().get(0).getClass());    
+    assertEquals("<b style='new'>value</b>", group(file, 0).value("key"));
+  }
+  
+  @Test
+  public void shouldParseHtml3() throws IOException {
+    prepareParser("key=<b style=\"new\">value</b>");
+
+    PropertyFile file = parser.parse();
+
+    assertEquals(1, file.getElements().size());
+    assertEquals(Group.class, file.getElements().get(0).getClass());    
+    assertEquals("<b style=\"new\">value</b>", group(file, 0).value("key"));
+  }
+  
+  @Test
   public void shouldParseFile() throws IOException {
     prepareParser("# login form", "label_login=Login", "label_pass=Password", "", "", "# validation", "Min=The value is too low", "");
 
